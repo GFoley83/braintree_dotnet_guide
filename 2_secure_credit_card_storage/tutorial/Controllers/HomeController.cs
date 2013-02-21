@@ -22,30 +22,42 @@ namespace braintree_tutorial.Controllers
     {
         public ActionResult Index()
         {
-            ViewData["TrData"] = Constants.Gateway.TrData(
-                new CustomerRequest { },
-                "http://localhost:49283/result"
-            );
-            ViewData["TransparentRedirectURL"] = Constants.Gateway.TransparentRedirect.Url;
             return View();
         }
-    }
 
-    public class ResultController : Controller
-    {
-        public ActionResult Index()
+        [HttpPost]
+        public ActionResult CreateCustomer(FormCollection collection)
         {
-            Result<Customer> result = Constants.Gateway.TransparentRedirect.ConfirmCustomer(Request.Url.Query);
+            CustomerRequest request = new CustomerRequest
+            {
+                FirstName = collection["first_name"],
+                LastName = collection["last_name"],
+                CreditCard = new CreditCardRequest
+                {
+                    BillingAddress = new CreditCardAddressRequest
+                    {
+                        PostalCode = collection["postal_code"]
+                    },
+                    Number = collection["number"],
+                    ExpirationMonth = collection["month"],
+                    ExpirationYear = collection["year"],
+                    CVV = collection["cvv"]
+                }
+            };
+
+            Result<Customer> result = Constants.Gateway.Customer.Create(request);
+
             if (result.IsSuccess())
             {
-                ViewData["Message"] = result.Target.Email;
+                Customer customer = result.Target;
+                ViewData["CustomerName"] = customer.FirstName + " " + customer.LastName;
             }
             else
             {
-                ViewData["Message"] = string.Join(", ", result.Errors.DeepAll());
+                ViewData["Message"] = result.Message;
             }
+
             return View();
         }
     }
-
 }

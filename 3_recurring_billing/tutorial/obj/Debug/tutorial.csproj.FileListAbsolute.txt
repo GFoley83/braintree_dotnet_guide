@@ -1,8 +1,0 @@
-c:\users\admin\documents\visual studio 2010\Projects\tutorial\tutorial\bin\tutorial.dll
-c:\users\admin\documents\visual studio 2010\Projects\tutorial\tutorial\bin\tutorial.pdb
-c:\users\admin\documents\visual studio 2010\Projects\tutorial\tutorial\bin\Braintree-2.15.1.dll
-c:\users\admin\documents\visual studio 2010\Projects\tutorial\tutorial\bin\EntityFramework.dll
-c:\users\admin\documents\visual studio 2010\Projects\tutorial\tutorial\bin\EntityFramework.xml
-c:\users\admin\documents\visual studio 2010\Projects\tutorial\tutorial\obj\Debug\ResolveAssemblyReference.cache
-c:\users\admin\documents\visual studio 2010\Projects\tutorial\tutorial\obj\Debug\tutorial.dll
-c:\users\admin\documents\visual studio 2010\Projects\tutorial\tutorial\obj\Debug\tutorial.pdb

@@ -22,38 +22,41 @@ namespace braintree_tutorial.Controllers
     {
         public ActionResult Index()
         {
-            ViewData["TrData"] = Constants.Gateway.Transaction.SaleTrData(
-                new TransactionRequest
-                {
-                    Amount = 1000.00M,
-                    Options = new TransactionOptionsRequest
-                    {
-                        SubmitForSettlement = true
-                    }
-
-                },
-                "http://localhost:49283/result"
-            );
-            ViewData["TransparentRedirectURL"] = Constants.Gateway.TransparentRedirect.Url;
             return View();
         }
-    }
-    public class ResultController : Controller
-    {
-        public ActionResult Index()
+
+        [HttpPost]
+        public ActionResult CreateTransaction(FormCollection collection)
         {
-            Result<Transaction> result = Constants.Gateway.TransparentRedirect.ConfirmTransaction(Request.Url.Query);
+            TransactionRequest request = new TransactionRequest
+            {
+                Amount = 1000.0M,
+                CreditCard = new TransactionCreditCardRequest
+                {
+                    Number = collection["number"],
+                    CVV = collection["cvv"],
+                    ExpirationMonth = collection["month"],
+                    ExpirationYear = collection["year"]
+                },
+                Options = new TransactionOptionsRequest
+                {
+                    SubmitForSettlement = true
+                }
+            };
+
+            Result<Transaction> result = Constants.Gateway.Transaction.Sale(request);
+
             if (result.IsSuccess())
             {
                 Transaction transaction = result.Target;
-                ViewData["Message"] = transaction.Status;
+                ViewData["TransactionId"] = transaction.Id;
             }
             else
             {
-                ViewData["Message"] = string.Join(", ", result.Errors.DeepAll());
+                ViewData["Message"] = result.Message;
             }
+
             return View();
         }
     }
-
 }

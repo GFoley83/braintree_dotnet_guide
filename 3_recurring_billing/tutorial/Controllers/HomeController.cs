@@ -22,58 +22,39 @@ namespace braintree_tutorial.Controllers
     {
         public ActionResult Index()
         {
-            ViewData["TrData"] = Constants.Gateway.TrData(
-                new CustomerRequest { },
-                "http://localhost:49283/result"
-            );
-            ViewData["TransparentRedirectURL"] = Constants.Gateway.TransparentRedirect.Url;
             return View();
         }
-    }
 
-    public class ResultController : Controller
-    {
-        public ActionResult Index()
+        [HttpPost]
+        public ActionResult CreateCustomer(FormCollection collection)
         {
-            Result<Customer> result = Constants.Gateway.TransparentRedirect.ConfirmCustomer(Request.Url.Query);
-            if (result.IsSuccess())
+            CustomerRequest request = new CustomerRequest
             {
-                ViewData["Message"] = result.Target.Email;
-            }
-            else
-            {
-                ViewData["Message"] = string.Join(", ", result.Errors.DeepAll());
-            }
-            ViewData["CustomerId"] = result.Target.Id;
-
-            return View();
-        }
-    }
-
-    public class SubscriptionsController : Controller
-    {
-        public ActionResult Index()
-        {
-            var customerRequest = new CustomerSearchRequest().
-                Id.Is(Request.QueryString["id"]);
-            ResourceCollection<Customer> customers = Constants.Gateway.Customer.Search(customerRequest);
-            // There should only ever be one customer with the given ID
-            Customer customer = customers.FirstItem;
-            string PaymentMethodToken = customer.CreditCards[0].Token;
-            var SubscriptionRequest = new SubscriptionRequest
-            {
-                PaymentMethodToken = PaymentMethodToken,
-                PlanId = "test_plan_1"
+                FirstName = collection["first_name"],
+                LastName = collection["last_name"],
+                CreditCard = new CreditCardRequest
+                {
+                    BillingAddress = new CreditCardAddressRequest
+                    {
+                        PostalCode = collection["postal_code"]
+                    },
+                    Number = collection["number"],
+                    ExpirationMonth = collection["month"],
+                    ExpirationYear = collection["year"],
+                    CVV = collection["cvv"]
+                }
             };
-            Result<Subscription> result = Constants.Gateway.Subscription.Create(SubscriptionRequest);
 
+            Result<Customer> result = Constants.Gateway.Customer.Create(request);
             if (result.IsSuccess())
             {
-                ViewData["Message"] = result.Target.Status;
+                Customer customer = result.Target;
+                ViewData["CustomerName"] = customer.FirstName + " " + customer.LastName;
+                ViewData["CustomerId"] = customer.Id;
             }
             else
             {
-                ViewData["Message"] = string.Join(", ", result.Errors.DeepAll());
+                ViewData["Message"] = result.Message;
             }
 
             return View();

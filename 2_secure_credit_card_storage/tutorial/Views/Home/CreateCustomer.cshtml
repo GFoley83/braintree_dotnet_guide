@@ -1,0 +1,8 @@
+﻿@if (ViewData.ContainsKey("CustomerName"))
+{
+<h2>Customer created with name: @ViewData["CustomerName"]</h2>
+}
+else
+{
+<h2>Error: @ViewData["Message"]</h2>
+}

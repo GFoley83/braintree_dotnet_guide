@@ -1,0 +1,9 @@
+﻿@if (ViewData.ContainsKey("CustomerId"))
+{
+<h2>Customer created with name: @ViewData["CustomerName"]</h2>
+@Html.ActionLink("Click here to sign this Customer up for a recurring payment", "Create", "Subscriptions", new { id = ViewData["CustomerId"] }, null)
+}
+else
+{
+<h2>Error: @ViewData["Message"]</h2>
+}
