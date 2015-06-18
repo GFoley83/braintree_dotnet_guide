@@ -11,10 +11,10 @@ namespace braintree_tutorial.Controllers
     {
         public static BraintreeGateway Gateway = new BraintreeGateway
         {
-            Environment = Braintree.Environment.DEVELOPMENT,
-            MerchantId = "integration_merchant_id",
-            PublicKey = "integration_public_key",
-            PrivateKey = "integration_private_key"
+            Environment = Braintree.Environment.SANDBOX,
+            MerchantId = "4d2y6xzyymry4y6r",
+            PublicKey = "brsn9qmdh37vk3vn",
+            PrivateKey = "ffd8a3c3c642dd017940d52a8cb2af93"
         };
     }
 

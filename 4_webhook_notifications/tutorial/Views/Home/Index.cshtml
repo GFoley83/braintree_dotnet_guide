@@ -1,41 +1,41 @@
 ﻿<html>
-  <head>
-  </head>
-  <body>
+<head>
+</head>
+<body>
     <h1>Braintree Credit Card Transaction Form</h1>
     <form action="@Url.Action("CreateCustomer")" method="POST" id="braintree-payment-form">
-      <h2>Customer Information</h2>
-      <p>
-        <label>First Name</label>
-        <input type="text" name="first_name" id="first_name" value="Foo"></input>
-      </p>
-      <p>
-        <label for="last_name">Last Name</label>
-        <input type="text" name="last_name" id="last_name" value="Magoo"></input>
-      </p>
-      <p>
-        <label for="postal_code">Postal Code</label>
-        <input type="text" name="postal_code" id="postal_code" value="12345"></input>
-      </p>
-      <h2>Credit Card</h2>
-      <p>
-        <label>Card Number</label>
-        <input type="text" size="20" autocomplete="off" data-encrypted-name="number" value="4111111111111111" />
-      </p>
-      <p>
-        <label>CVV</label>
-        <input type="text" size="4" autocomplete="off" data-encrypted-name="cvv" value="123" />
-      </p>
-      <p>
-        <label>Expiration (MM/YYYY)</label>
-        <input type="text" size="2" data-encrypted-name="month" value="01" /> / <input type="text" size="4" data-encrypted-name="year"  value="20" />
-      </p>
-      <input class="submit-button" type="submit" />
+        <h2>Customer Information</h2>
+        <p>
+            <label>First Name</label>
+            <input type="text" name="first_name" id="first_name" value="Gavin"></input>
+        </p>
+        <p>
+            <label for="last_name">Last Name</label>
+            <input type="text" name="last_name" id="last_name" value="Foley"></input>
+        </p>
+        <p>
+            <label for="postal_code">Postal Code</label>
+            <input type="text" name="postal_code" id="postal_code" value="90210"></input>
+        </p>
+        <h2>Credit Card</h2>
+        <p>
+            <label>Card Number</label>
+            <input type="text" size="20" autocomplete="on" data-encrypted-name="number" value="4111111111111111" />
+        </p>
+        <p>
+            <label>CVV</label>
+            <input type="text" size="4" autocomplete="off" data-encrypted-name="cvv" value="100" />
+        </p>
+        <p>
+            <label>Expiration (MM/YYYY)</label>
+            <input type="text" size="2" data-encrypted-name="month"  value="11"/> / <input type="text" size="4" data-encrypted-name="year" value="2018" />
+        </p>
+        <input class="submit-button" type="submit" />
     </form>
     <script type="text/javascript" src="https://js.braintreegateway.com/v1/braintree.js"></script>
     <script type="text/javascript">
-        var braintree = Braintree.create("MIIBCgKCAQEAwGAz246/bk0X77uBKyUCf8iwv5vAFAFxWA23XTO15dWZhFKvQrZCAxjAa6IChh9xLQsZvuySWuMDYyv4wgxtBAM5wkfD6+y0qziWARSKUKbQu9L7vXJn20PjPH1g2CEpFj2CpQ1WbQyy8LblifQl/YaNI6pNfTJ9dn+skF6x8arUex3lzcJ8kD9d0XbhTfYs9YgQHRibh+1fBBZfYpxmqKtTY+FlTfLWMATG5FPuHpIb4faQc8xPKYHu3gPqGC0tnOtUxupdX4V37eX7t2uvLjxiyzhYeuMAMWVvgFTgqbYFkGf8A/8hQl+cZly6bk9TPQlxRQx7EP1hOdCZyLe1IwIDAQAB");
+        var braintree = Braintree.create("MIIBCgKCAQEA5Fs1e9fojs9qPJyoQbll8cZBJ0QAFRFBSelVe/m7S/aTMhkwMolGAmLeAwxJT71z+EoCTEotXrLIRxDc5L7BOevN5QqMk/wf91bzwpMuOsdvQrq4tCSyKgOmfVwsNWDaVbE87Y6eKaKyRfBZ0lYKFvJBWE5CND7/LGW+Uma4IZ692bgoKQFqYMQNf79Fsg1u7OBYisuGUTLoDn49zHuOqtRhRMlTQfL/lZC7HbWQxvBLZOUZeRjbee9RTvPMXgRihIsowemS9mhyIZHEJUo8XV/xKu/aOWgDzyCQj677pio86JJ+f/dyRmmDB4nKmHfkxWkXaer7n9L/ZyreE+ez5wIDAQAB");
         braintree.onSubmitEncryptForm('braintree-payment-form');
     </script>
-  </body>
+</body>
 </html>

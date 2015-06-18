@@ -19,8 +19,20 @@ namespace braintree_tutorial.Controllers
                 SubscriptionRequest request = new SubscriptionRequest
                 {
                     PaymentMethodToken = paymentMethodToken,
-                    PlanId = "test_plan_1"
+                    PlanId = "15PlanMonthlyWithTrial",
+                    AddOns = new AddOnsRequest()
+                    {
+                        Add = new AddAddOnRequest[] {
+                          new AddAddOnRequest{
+                            InheritedFromId = "15seat",
+                            Quantity = 5,
+                            //Amount = 15.00M // Override stored $ amount
+                          }
+                        }
+                    }
+
                 };
+
                 Result<Subscription> result = Constants.Gateway.Subscription.Create(request);
 
                 return Content("Subscription Status " + result.Target.Status);
