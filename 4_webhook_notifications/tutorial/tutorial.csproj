@@ -45,8 +45,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Braintree-2.15.1">
-      <HintPath>Lib\Braintree-2.15.1.dll</HintPath>
+    <Reference Include="Braintree-2.43.0">
+      <HintPath>..\packages\Braintree.2.43.0\lib\Braintree-2.43.0.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.4.1.10331.0\lib\EntityFramework.dll</HintPath>
