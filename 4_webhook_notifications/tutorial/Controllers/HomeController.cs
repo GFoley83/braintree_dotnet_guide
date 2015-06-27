@@ -3,17 +3,6 @@ using Braintree;
 
 namespace tutorial.Controllers
 {
-    public class Constants
-    {
-        public static BraintreeGateway Gateway = new BraintreeGateway
-                                                 {
-                                                     Environment = Environment.SANDBOX,
-                                                     MerchantId = "4d2y6xzyymry4y6r",
-                                                     PublicKey = "brsn9qmdh37vk3vn",
-                                                     PrivateKey = "ffd8a3c3c642dd017940d52a8cb2af93"
-                                                 };
-    }
-
     public class HomeController : Controller
     {
         public ActionResult Index()
@@ -41,7 +30,7 @@ namespace tutorial.Controllers
                                            }
                           };
 
-            var result = Constants.Gateway.Customer.Create(request);
+            var result = PaymentConstants.Gateway.Customer.Create(request);
             if(result.IsSuccess())
             {
                 var customer = result.Target;

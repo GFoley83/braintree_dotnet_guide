@@ -9,10 +9,10 @@ namespace tutorial.Controllers
         {
             if(Request.HttpMethod != "POST")
             {
-                return Content(Constants.Gateway.WebhookNotification.Verify(Request.QueryString["bt_challenge"]));
+                return Content(PaymentConstants.Gateway.WebhookNotification.Verify(Request.QueryString["bt_challenge"]));
             }
 
-            var webhookNotification = Constants.Gateway.WebhookNotification.Parse(
+            var webhookNotification = PaymentConstants.Gateway.WebhookNotification.Parse(
                 Request.Params["bt_signature"],
                 Request.Params["bt_payload"]);
 

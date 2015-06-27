@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
 using Braintree;
 using Braintree.Exceptions;
 
@@ -12,8 +13,9 @@ namespace tutorial.Controllers
         {
             try
             {
-                var customer = Constants.Gateway.Customer.Find(id);
+                var customer = PaymentConstants.Gateway.Customer.Find(id);
                 var paymentMethodToken = customer.CreditCards[0].Token;
+                
 
                 var request = new SubscriptionRequest
                               {
@@ -33,7 +35,7 @@ namespace tutorial.Controllers
                                            }
                               };
 
-                var result = Constants.Gateway.Subscription.Create(request);
+                var result = PaymentConstants.Gateway.Subscription.Create(request);
 
                 return Content("Subscription Status " + result.Target.Status);
             } catch(NotFoundException e)
