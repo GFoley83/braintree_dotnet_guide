@@ -2,8 +2,9 @@
 {
 <h2>Customer created with name: @ViewData["CustomerName"]</h2>
     @Html.ActionLink("Click here to sign this Customer up for a recurring payment", "Create", "Subscriptions", new { id = ViewData["CustomerId"] }, null)
+    <h2>Message: @ViewData["Message"]</h2>
 }
 else
 {
-<h2>Error: @ViewData["Message"]</h2>
+<h2>Message: @ViewData["Message"]</h2>
 }

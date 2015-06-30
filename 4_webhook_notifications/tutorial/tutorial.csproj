@@ -125,6 +125,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Controllers\PaymentConstants.cs" />
+    <Compile Include="SubscriptionManager.cs" />
     <Compile Include="Controllers\WebhooksController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SubscriptionsController.cs" />
