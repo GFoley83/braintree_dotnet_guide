@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Net.Http;
+using System.Text;
 using System.Web.Mvc;
+using Braintree;
 
 namespace tutorial.Controllers
 {
@@ -9,7 +12,17 @@ namespace tutorial.Controllers
         {
             if(Request.HttpMethod != "POST")
             {
-                return Content(PaymentConstants.Gateway.WebhookNotification.Verify(Request.QueryString["bt_challenge"]));
+//                var asd = new HttpResponseMessage() {
+//                    Content = new StringContent(
+//                        "<strong>test</strong>",
+//                        Encoding.UTF8,
+//                        "text/html"
+//                    )
+//                };
+                //var content = Json(PaymentConstants.Gateway.WebhookNotification.Verify(Request.QueryString["bt_challenge"]), JsonRequestBehavior.AllowGet);
+                var content = Content(PaymentConstants.Gateway.WebhookNotification.Verify(Request.QueryString["bt_challenge"]));
+                return content;
+                
             }
 
             var webhookNotification = PaymentConstants.Gateway.WebhookNotification.Parse(
@@ -25,6 +38,7 @@ namespace tutorial.Controllers
                 webhookNotification.Timestamp.Value,
                 webhookNotification.Kind,
                 webhookNotification.Subscription.Id);
+
 
             Console.WriteLine(message);
 

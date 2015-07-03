@@ -14,6 +14,7 @@ namespace tutorial.Controllers
                 //var paymentMethodToken = customer.CreditCards[0].Token;
                 var paymentMethodToken = customer.DefaultPaymentMethod.Token;
 
+
                 var result = SubscriptionManager.SubResult(paymentMethodToken);
 
                 return Content("Subscription Status " + result.Target.Status);

@@ -20,7 +20,7 @@ namespace tutorial.Controllers
                           {
                               //Id = memberId, // Use member id
                               Email = collection["email"],
-                              PaymentMethodNonce = collection["payment_method_nonce"],
+                              PaymentMethodNonce = collection["payment_method_nonce"], // Payment details
                               FirstName = collection["first_name"],
                               LastName = collection["last_name"],
                               CustomFields = new Dictionary<string, string>

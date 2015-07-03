@@ -13,18 +13,18 @@
             <label for="last_name">Last Name</label>
             <input type="text" name="last_name" id="last_name" value="Foley"></input>
         </p>
-        <p>
-            <label for="postal_code">Postal Code</label>    
-            <input type="text" name="postal_code" id="postal_code" value="90210"></input>
-        </p>
+        @*        <p>*@
+        @*            <label for="postal_code">Postal Code</label>*@
+        @*            <input type="text" name="postal_code" id="postal_code" value="90210"></input>*@
+        @*        </p>*@
         <h2>Credit Card</h2>
         <p>
             <label>Card Number</label>
-            <input type="text" size="20" autocomplete="on" data-braintree-name="number" value="4111111111111111" />
+            <input type="text" size="20" autocomplete="on" data-braintree-name="number" id="number" value="4111111111111111" />
         </p>
         <p>
             <label>CVV</label>
-            <input type="text" size="4" autocomplete="off" data-braintree-name="cvv" value="100" />
+            <input type="text" size="4" autocomplete="off" data-braintree-name="cvv" id="cvv" value="100" />
         </p>
 
         <p>
@@ -33,33 +33,69 @@
         </p>
         <p>
             <label>Expiration (MM/YYYY)</label>
-            <input type="text" size="2" data-braintree-name="expiration_month" value="11" /> / <input type="text" size="4" data-braintree-name="expiration_year" value="2018" />
+            <input type="text" size="2" data-braintree-name="expiration_month" id="expiration_month" value="11" /> /
+            <input type="text" size="4" data-braintree-name="expiration_year" id="expiration_year" value="2018" />
         </p>
         <input class="submit-button" type="submit" />
+
+        <input type="hidden" id="payment_method_nonce" name="payment_method_nonce" value="" />
+
     </form>
+
     <script type="text/javascript" src="https://js.braintreegateway.com/v2/braintree.js"></script>
-<script type="text/javascript">
 
-    var clientToken;
-
-    $.ajax('/api/braintree/token')
-    .then(function (response) {
-        //console.log("success response: ", response);
-        clientToken = response;
-        braintree.setup(clientToken, "custom", { id: "braintree-payment-form" });
-    }, function(error) {
-        console.log("error response: ", error);
-    });
-    
+    <script>
 
 
-    // https://developers.braintreepayments.com/javascript+dotnet/deprecated/client-side-encryption/general
-    // https://articles.braintreepayments.com/control-panel/important-gateway-credentials
-    // https://developers.braintreepayments.com/javascript+dotnet/guides/credit-cards
-    // CSE Key here
-//    var braintree = Braintree.create("MIIBCgKCAQEA5Fs1e9fojs9qPJyoQbll8cZBJ0QAFRFBSelVe/m7S/aTMhkwMolGAmLeAwxJT71z+EoCTEotXrLIRxDc5L7BOevN5QqMk/wf91bzwpMuOsdvQrq4tCSyKgOmfVwsNWDaVbE87Y6eKaKyRfBZ0lYKFvJBWE5CND7/LGW+Uma4IZ692bgoKQFqYMQNf79Fsg1u7OBYisuGUTLoDn49zHuOqtRhRMlTQfL/lZC7HbWQxvBLZOUZeRjbee9RTvPMXgRihIsowemS9mhyIZHEJUo8XV/xKu/aOWgDzyCQj677pio86JJ+f/dyRmmDB4nKmHfkxWkXaer7n9L/ZyreE+ez5wIDAQAB");
-    //    braintree.onSubmitEncryptForm('braintree-payment-form');
-   
-</script>
+
+    </script>
+
+    <script type="text/javascript">
+
+        var clientToken;
+
+        $.ajax("/api/braintree/token")
+        .then(function (response) {
+            clientToken = response;
+            //braintree.setup(clientToken, "custom", { id: "braintree-payment-form" });
+        }, function (error) {
+            console.log("error response: ", error);
+        });
+
+        function tokenizeCard(callback) {
+            var client = new braintree.api.Client({ clientToken: clientToken });
+
+            client.tokenizeCard({
+                number: $('#number').val(),
+                cardholderName: $('#first_name').val() + " " + $('#last_name').val(),
+                // You can use either expirationDate
+                //expirationDate: "10/20",
+                // or expirationMonth and expirationYear
+                expirationMonth: $('#expiration_month').val(),
+                expirationYear: $('#expiration_year').val(),
+                // CVV if required
+                cvv: $('#cvv').val()
+//                // Address if AVS is on
+//                billingAddress: {
+//                    postalCode: "94107"
+//                }
+            }, function (err, nonce) {
+                // Send nonce to your server
+                console.log("done: ", nonce);
+                callback(nonce);
+            });
+        }
+
+        function postForm(nonce) {
+            $('#payment_method_nonce').val(nonce);
+            $("#braintree-payment-form").submit();
+        }
+
+        $(".submit-button").click(function (e) {
+            e.preventDefault();
+            tokenizeCard(postForm);
+        });
+
+    </script>
 </body>
 </html>
