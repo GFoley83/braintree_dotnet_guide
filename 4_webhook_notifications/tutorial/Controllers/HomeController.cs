@@ -25,7 +25,7 @@ namespace tutorial.Controllers
                               LastName = collection["last_name"],
                               CustomFields = new Dictionary<string, string>
                                              {
-                                                 {"member_id", memberId}
+                                                 {"memberid", memberId}
                                              }
                           };
 
@@ -33,9 +33,12 @@ namespace tutorial.Controllers
 
             if(result.IsSuccess())
             {
+                // Todo - Store info in DB
+
                 var customer = result.Target;
                 ViewData["CustomerName"] = customer.FirstName + " " + customer.LastName;
                 ViewData["CustomerId"] = customer.Id;
+                ViewData["PaymentMethodToken"] = customer.DefaultPaymentMethod.Token;
 
                 var paymentMethodToken = customer.DefaultPaymentMethod.Token;
 

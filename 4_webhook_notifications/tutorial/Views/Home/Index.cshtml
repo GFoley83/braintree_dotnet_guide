@@ -46,56 +46,62 @@
 
     <script>
 
+        var clientToken,
 
+            getPaymentSigningToken = function () {
+                $.ajax("/api/braintree/token")
+                    .then(function (response) {
+                        clientToken = response;
+                        //braintree.setup(clientToken, "custom", { id: "braintree-payment-form" });
+                    }, function (error) {
+                        console.log("error response: ", error);
+                    });
+            },
 
-    </script>
+            // Store card in BT & get back the token id
+            // https://developers.braintreepayments.com/javascript+dotnet/guides/credit-cards#options
+            tokenizeCard = function (callback) {
+                var client = new window.braintree.api.Client({ clientToken: clientToken });
 
-    <script type="text/javascript">
+                client.tokenizeCard({
+                    number: $('#number').val(),
+                    cardholderName: $('#first_name').val() + " " + $('#last_name').val(),
+                    // You can use either expirationDate
+                    //expirationDate: "10/20",
+                    // or expirationMonth and expirationYear
+                    expirationMonth: $('#expiration_month').val(),
+                    expirationYear: $('#expiration_year').val(),
+                    // CVV if required
+                    cvv: $('#cvv').val()
+                    //                // Address if AVS is on
+                    //                billingAddress: {
+                    //                    postalCode: "94107"
+                    //                }
+                }, function (err, nonce) {
+                    // Send nonce to your server
+                    console.log("done: ", nonce);
+                    callback(nonce);
+                });
+            },
 
-        var clientToken;
+            // Send payment details and customer info to the server
+            postForm = function (nonce) {
+                // Set the payment nonce
+                // The "nonce" is simply an id pointer to payment details stored in the BT vault
+                $('#payment_method_nonce').val(nonce);
+                $("#braintree-payment-form").submit();
+            },
 
-        $.ajax("/api/braintree/token")
-        .then(function (response) {
-            clientToken = response;
-            //braintree.setup(clientToken, "custom", { id: "braintree-payment-form" });
-        }, function (error) {
-            console.log("error response: ", error);
-        });
+            init = function () {
+                getPaymentSigningToken();
 
-        function tokenizeCard(callback) {
-            var client = new braintree.api.Client({ clientToken: clientToken });
+                $(".submit-button").click(function (e) {
+                    e.preventDefault();
+                    tokenizeCard(postForm);
+                });
+            };
 
-            client.tokenizeCard({
-                number: $('#number').val(),
-                cardholderName: $('#first_name').val() + " " + $('#last_name').val(),
-                // You can use either expirationDate
-                //expirationDate: "10/20",
-                // or expirationMonth and expirationYear
-                expirationMonth: $('#expiration_month').val(),
-                expirationYear: $('#expiration_year').val(),
-                // CVV if required
-                cvv: $('#cvv').val()
-//                // Address if AVS is on
-//                billingAddress: {
-//                    postalCode: "94107"
-//                }
-            }, function (err, nonce) {
-                // Send nonce to your server
-                console.log("done: ", nonce);
-                callback(nonce);
-            });
-        }
-
-        function postForm(nonce) {
-            $('#payment_method_nonce').val(nonce);
-            $("#braintree-payment-form").submit();
-        }
-
-        $(".submit-button").click(function (e) {
-            e.preventDefault();
-            tokenizeCard(postForm);
-        });
-
+        init();
     </script>
 </body>
 </html>

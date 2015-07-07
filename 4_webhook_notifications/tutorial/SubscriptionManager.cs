@@ -14,7 +14,11 @@ namespace tutorial
                               //HasTrialPeriod = true,
                               //TrialDuration = 6,
                               //TrialDurationUnit = SubscriptionDurationUnit.MONTH,
-                              PlanId = "RegularSeat",
+                              PlanId = "RegularSeatSub",
+                              Options = new SubscriptionOptionsRequest()
+                                        {
+                                            StartImmediately = true
+                                        },
                               AddOns = new AddOnsRequest()
                                        {
                                            Add = new[]

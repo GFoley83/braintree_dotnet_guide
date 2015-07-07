@@ -26,5 +26,14 @@ namespace tutorial.Controllers {
 
             return BadRequest("nope");
         }
+
+        [HttpGet]
+        [Route("securityapi/trysignup")]
+        [Route("api/security/trysignup")]
+        [Route("api/payment/trysignup")]
+        public IHttpActionResult Test()
+        {
+            return Ok("YEP");
+        }
     }
 }

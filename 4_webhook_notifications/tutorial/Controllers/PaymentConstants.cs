@@ -5,11 +5,11 @@ namespace tutorial.Controllers
     public class PaymentConstants
     {
         public static BraintreeGateway Gateway = new BraintreeGateway
-                                                 {
-                                                     Environment = Environment.SANDBOX,
-                                                     MerchantId = "4d2y6xzyymry4y6r",
-                                                     PublicKey = "brsn9qmdh37vk3vn",
-                                                     PrivateKey = "ffd8a3c3c642dd017940d52a8cb2af93"
-                                                 };
+        {
+            Environment = Environment.SANDBOX,
+            MerchantId = "mhg3f3x2ppkfqckj",
+            PublicKey = "5kvnpr5fnn59w7fh",
+            PrivateKey = "8c1f5f61380e5cc49ba7d197cf7a5108"
+        };
     }
 }
